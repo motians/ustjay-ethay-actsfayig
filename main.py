@@ -28,18 +28,18 @@ def call_the_piggy(fact_string):
     }
     data = {'input_text': fact_string}
 
-    print("before call")
     pig_response = requests.post(url, headers=headers, data=data, allow_redirects=False)
-    print('pig_response: {0}'.format(pig_response.content))
+
     soup = BeautifulSoup(pig_response.content, "html.parser")
-    pig_url = soup.get('href')
-    return pig_url
+    pig_url = soup.find('a')
+
+    return 'http://' + host + pig_url.get('href')
 
 
 @app.route('/')
 def home():
     new_fact = get_fact()
-    print('line39: new_fact={0}'.format(new_fact))
+    print('new_fact={0}'.format(new_fact))
     link_to_quote = call_the_piggy(new_fact)
 
     return link_to_quote
@@ -48,4 +48,3 @@ def home():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 6787))
     app.run(host='127.0.0.1', port=port)
-
