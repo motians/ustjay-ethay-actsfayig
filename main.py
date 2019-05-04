@@ -17,12 +17,32 @@ def get_fact():
     return facts[0].getText()
 
 
+def call_the_piggy(fact_string):
+    url = 'https://hidden-journey-62459.herokuapp.com/piglatinize/'
+    host = 'hidden-journey-62459.herokuapp.com'
+    length = len(fact_string)
+    headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Host': host,
+        'Content-Length': length
+    }
+    data = fact_string
+
+    pig_response = requests.post(url, headers=headers, data=data)
+    print('pig_response: {0}'.format(pig_response))
+    return pig_response
+
+
 @app.route('/')
 def home():
-    return "FILL ME!"
+    new_fact = get_fact()
+    print('line39: new_fact={0}'.format(new_fact))
+    link_to_quote = call_the_piggy(new_fact)
+
+    return link_to_quote
 
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 6787))
-    app.run(host='0.0.0.0', port=port)
+    app.run(host='127.0.0.1', port=port)
 
