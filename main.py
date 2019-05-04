@@ -20,17 +20,20 @@ def get_fact():
 def call_the_piggy(fact_string):
     url = 'https://hidden-journey-62459.herokuapp.com/piglatinize/'
     host = 'hidden-journey-62459.herokuapp.com'
-    length = len(fact_string)
+    length = str(len(fact_string))
     headers = {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Host': host,
         'Content-Length': length
     }
-    data = fact_string
+    data = {'input_text': fact_string}
 
-    pig_response = requests.post(url, headers=headers, data=data)
-    print('pig_response: {0}'.format(pig_response))
-    return pig_response
+    print("before call")
+    pig_response = requests.post(url, headers=headers, data=data, allow_redirects=False)
+    print('pig_response: {0}'.format(pig_response.content))
+    soup = BeautifulSoup(pig_response.content, "html.parser")
+    pig_url = soup.get('href')
+    return pig_url
 
 
 @app.route('/')
