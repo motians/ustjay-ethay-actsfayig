@@ -1,3 +1,6 @@
+""" Returns quote of the day in pig latin """
+
+
 import os
 
 import requests
@@ -8,6 +11,7 @@ app = Flask(__name__)
 
 
 def get_fact():
+    """ Get quote of the day """
 
     response = requests.get("http://unkno.com")
 
@@ -18,6 +22,8 @@ def get_fact():
 
 
 def call_the_piggy(fact_string):
+    """ Send the quote to the pig latin generator. """
+
     url = 'https://hidden-journey-62459.herokuapp.com/piglatinize/'
     host = 'hidden-journey-62459.herokuapp.com'
     length = str(len(fact_string))
